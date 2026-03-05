@@ -33,6 +33,10 @@ Thumbs.db
 # Vercel
 .vercel
 
+# Extensions (IDE extensions, not needed in repo)
+extensions/
+argv.json
+
 # Logs
 logs
 *.log

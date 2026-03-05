@@ -1,0 +1,31 @@
+{
+  "name": "jumoke-joseph-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website for Jumoke Joseph Ejirooghene - Software Engineer",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'Static site - no build needed'",
+    "start": "python -m http.server 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "software-engineer",
+    "full-stack",
+    "react",
+    "java",
+    "javascript",
+    "spring-boot"
+  ],
+  "author": {
+    "name": "Jumoke Joseph Ejirooghene",
+    "email": "josephfeyishetan@gmail.com",
+    "url": "https://github.com/feyijhay"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feyijhay/portfolio"
+  },
+  "homepage": "https://jumoke-joseph-portfolio.vercel.app"
+}

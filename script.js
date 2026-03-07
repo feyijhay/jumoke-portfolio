@@ -63,10 +63,10 @@ document.querySelectorAll('.skill-category, .project-card').forEach(element => {
     observer.observe(element);
 });
 
-// Contact form handling
+// Contact form handling with Formspree
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Get form data
@@ -88,45 +88,58 @@ if (contactForm) {
             return;
         }
         
-        // Simulate form submission
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
-        // Create and show custom success message
-        setTimeout(() => {
-            // Remove any existing messages
-            const existingMessage = document.querySelector('.success-message');
-            if (existingMessage) {
-                existingMessage.remove();
+        try {
+            // Submit to Formspree
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Remove any existing messages
+                const existingMessage = document.querySelector('.success-message');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+                
+                // Create success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.innerHTML = `
+                    <div class="success-content">
+                        <h3>Thank you for reaching out!</h3>
+                        <p>Your message has been sent successfully. I'll get back to you soon at ${email}</p>
+                    </div>
+                `;
+                
+                // Insert message after the form
+                this.parentNode.insertBefore(successMessage, this.nextSibling);
+                
+                // Reset form
+                this.reset();
+                
+                // Remove message after 5 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 5000);
+            } else {
+                alert('Oops! There was a problem sending your message. Please email me directly at josephfeyishetan@gmail.com');
             }
-            
-            // Create success message
-            const successMessage = document.createElement('div');
-            successMessage.className = 'success-message';
-            successMessage.innerHTML = `
-                <div class="success-content">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Thank you!</h3>
-                    <p>I'd get back to you soon.</p>
-                </div>
-            `;
-            
-            // Insert message after the form
-            this.parentNode.insertBefore(successMessage, this.nextSibling);
-            
-            // Reset form and button
-            this.reset();
+        } catch (error) {
+            alert('Oops! There was a problem sending your message. Please email me directly at josephfeyishetan@gmail.com');
+        } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-            
-            // Remove message after 5 seconds
-            setTimeout(() => {
-                successMessage.remove();
-            }, 5000);
-        }, 2000);
+        }
     });
 }
 
